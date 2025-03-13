@@ -85,9 +85,9 @@ position_history = []
 
 # Trash can setup
 trash_cans = []
-trash_can_speed = 10  # Speed of horizontal movement
-vertical_speed = 8  # Speed for vertical movement of bins
-spawn_interval = 2000  # Milliseconds between spawns
+trash_can_speed = 12  # Speed of horizontal movement
+vertical_speed = 10  # Speed for vertical movement of bins
+spawn_interval = 1500  # Milliseconds between spawns
 last_spawn_time = pygame.time.get_ticks()
 
 # Score setup
@@ -169,7 +169,7 @@ def get_hand_info(frame, last_y):
 def spawn_trash_cans():
     # Spawn one bin at the top and one at the bottom of the screen
     # They will move towards the center to create a gap
-    gap_height = 140  # Gap size (smaller gap for more challenge)
+    gap_height = 120  # Gap size (smaller gap for more challenge)
 
     # Range for the vertical position
     min_center = gap_height
@@ -291,12 +291,10 @@ def draw_menu():
     title = font.render("Hand-Controlled Plane Game", True, WHITE)
     start_text = small_font.render("Hold your hand up in front of the camera to start", True, WHITE)
     instruction = small_font.render("Move your hand up and down to control the plane", True, WHITE)
-    hitbox_instruction = small_font.render("Show your palm to toggle hitboxes visibility", True, WHITE)
 
     screen.blit(title, (SCREEN_WIDTH // 2 - title.get_width() // 2, SCREEN_HEIGHT // 3 - title.get_height() // 2))
     screen.blit(start_text, (SCREEN_WIDTH // 2 - start_text.get_width() // 2, SCREEN_HEIGHT // 2))
     screen.blit(instruction, (SCREEN_WIDTH // 2 - instruction.get_width() // 2, SCREEN_HEIGHT // 2 + 50))
-    screen.blit(hitbox_instruction, (SCREEN_WIDTH // 2 - hitbox_instruction.get_width() // 2, SCREEN_HEIGHT // 2 + 100))
 
 
 def draw_game_over():
@@ -309,7 +307,7 @@ def draw_game_over():
     game_over_text = font.render("Game Over", True, WHITE)
     score_text = small_font.render(f"Your Score: {score}", True, WHITE)
     high_score_text = small_font.render(f"High Score: {high_score}", True, WHITE)
-    restart_text = small_font.render("Show your palm to restart", True, WHITE)
+    restart_text = small_font.render("Show your hand to restart", True, WHITE)
 
     screen.blit(game_over_text, (
         SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 3 - game_over_text.get_height() // 2))
@@ -496,7 +494,7 @@ def main_loop():
                 game_state = PLAYING
 
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(1000)
 
     print("Game Over! Your score:", score)
     cap.release()
