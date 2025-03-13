@@ -65,6 +65,14 @@ if not cap.isOpened():
 
 # Pygame setup
 pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load("background_music.mp3")  # Zorg dat dit bestand in je map staat
+crash_sound = pygame.mixer.Sound("crash.wav")
+
+pygame.mixer.music.set_volume(1)  # Pas volume aan (0.0 - 1.0)
+pygame.mixer.music.play(-1)  # Herhaal de muziek oneindig
+
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Hand-Controlled Plane Game')
 
@@ -261,6 +269,8 @@ def get_plane_hitboxes(plane_x, plane_y):
 def check_collision(plane_hitboxes, trash_cans):
     """Improved collision detection that checks all plane hitboxes"""
     for trash_can in trash_cans:
+
+
         bin_rect = get_bin_hitbox(trash_can)
 
         # Check each plane hitbox against the bin
@@ -419,6 +429,7 @@ def main_loop():
 
             # Check for collisions with any part of the plane
             if check_collision(plane_hitboxes, trash_cans):
+                crash_sound.play(maxtime=2000)
                 if score > high_score:
                     high_score = score + 1
                 game_state = GAME_OVER
@@ -458,17 +469,10 @@ def main_loop():
             # Update score
             score += 1
             score_text = font.render(str(score), True, (0, 0, 0))
-            screen.blit(score_text, (SCREEN_WIDTH - 150, 50))
+            screen.blit(score_text, (50,50))
 
 
 
-
-
-            # Visualize palm detection progress if in progress
-            if palm_detection_timer > 0:
-                progress = min(palm_detection_timer / 1000, 1.0)  # 0.0 to 1.0
-                pygame.draw.rect(screen, WHITE, (50, 130, 100, 10), 1)
-                pygame.draw.rect(screen, GREEN, (50, 130, int(100 * progress), 10))
 
         elif game_state == GAME_OVER:
             # Draw basic scene in background
