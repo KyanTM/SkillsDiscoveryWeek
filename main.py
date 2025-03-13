@@ -308,10 +308,7 @@ def draw_game_over():
     screen.blit(restart_text, (SCREEN_WIDTH // 2 - restart_text.get_width() // 2, SCREEN_HEIGHT // 2 + 100))
 
 
-def toggle_hitboxes():
-    """Toggle the visibility of hitboxes"""
-    global SHOW_COLLISION_BOXES
-    SHOW_COLLISION_BOXES = not SHOW_COLLISION_BOXES
+
 
 
 def reset_game():
@@ -397,15 +394,13 @@ def main_loop():
                 start_timer = 0  # Reset timer if hand disappeared
 
             # Toggle hitboxes if palm gesture detected
-            if gesture_triggered:
-                toggle_hitboxes()
+
 
         elif game_state == PLAYING:
             plane_y = detected_y
 
             # Toggle hitboxes if palm gesture detected
-            if gesture_triggered:
-                toggle_hitboxes()
+
 
             # Spawn trash cans at intervals
             current_time = pygame.time.get_ticks()
@@ -425,7 +420,7 @@ def main_loop():
             # Check for collisions with any part of the plane
             if check_collision(plane_hitboxes, trash_cans):
                 if score > high_score:
-                    high_score = score
+                    high_score = score + 1
                 game_state = GAME_OVER
                 start_timer = 0
 
@@ -465,14 +460,9 @@ def main_loop():
             score_text = font.render(str(score), True, (0, 0, 0))
             screen.blit(score_text, (SCREEN_WIDTH - 150, 50))
 
-            # Show hitbox status
-            hitbox_status = "HITBOXES: ON" if SHOW_COLLISION_BOXES else "HITBOXES: OFF"
-            status_text = small_font.render(hitbox_status, True, WHITE)
-            screen.blit(status_text, (50, 50))
 
-            # Show palm gesture instruction
-            hint_text = tiny_font.render("Show palm to toggle hitboxes", True, WHITE)
-            screen.blit(hint_text, (50, 100))
+
+
 
             # Visualize palm detection progress if in progress
             if palm_detection_timer > 0:
